@@ -27,7 +27,9 @@ module Fugit
 #p [ original, s ]; Raabro.pp(Parser.parse(s, debug: 3), colours: true)
 
         h =
-          if opts[:iso]
+          if s.empty?
+            { sec: 0 }
+          elsif opts[:iso]
             IsoParser.parse(opts[:stricter] ? s : s.upcase)
           elsif opts[:plain]
             Parser.parse(s)
