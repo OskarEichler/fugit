@@ -403,7 +403,9 @@ module Fugit
     #
     def brute_frequency(year=2017)
 
-      FREQUENCY_CACHE["#{to_cron_s}|#{year}"] ||=
+      zone = EtOrbi.determine_local_tzone.name
+
+      FREQUENCY_CACHE["#{to_cron_s}|#{year}|#{zone}"] ||=
         begin
 
           deltas = []
