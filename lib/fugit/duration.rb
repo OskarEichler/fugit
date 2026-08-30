@@ -216,6 +216,9 @@ module Fugit
 
     def add_numeric(n)
 
+      fail ArgumentError.new(
+        "cannot add non-real #{n.class} to a Fugit::Duration") unless n.real?
+
       h = @h.dup
       h[:sec] = (h[:sec] || 0) + n
 
