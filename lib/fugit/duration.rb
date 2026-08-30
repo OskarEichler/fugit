@@ -176,6 +176,8 @@ module Fugit
       id = inflate
       h = id.h.dup
       s = h.delete(:sec) || 0
+      sign = s < 0 ? -1 : 1
+      s = s.abs
 
       keys = INFLA_KEYS
 
@@ -198,11 +200,12 @@ module Fugit
 
         vs = v[:s]; next if s < vs
 
-        h[k] = (h[k] || 0) + s.to_i / vs
+        h[k] = (h[k] || 0) + sign * (s.to_i / vs)
         s = s % vs
       end
 
-      h[:sec] = s.is_a?(Integer) ? s : s.round(SECOND_ROUND)
+      s = s.is_a?(Integer) ? s : s.round(SECOND_ROUND)
+      h[:sec] = sign * s
 
       self.class.allocate.init(@original, {}, h)
     end
