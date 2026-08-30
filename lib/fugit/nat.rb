@@ -610,6 +610,7 @@ module Fugit
       def graded?; weak || strong; end
       def append(slot)
         @_data0, @_data1 = conflate(0, slot), conflate(1, slot)
+        @data0 = @data1 = nil
         @opts.clear
         self
       end
