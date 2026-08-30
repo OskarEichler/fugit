@@ -505,16 +505,21 @@ module Fugit
 
     def ==(o)
 
-      o.is_a?(::Fugit::Cron) && o.to_a == to_a
+      o.is_a?(::Fugit::Cron) && o.equality_key == equality_key
     end
     alias eql? ==
 
     def hash
 
-      to_a.hash
+      equality_key.hash
     end
 
     protected
+
+    def equality_key
+
+      [ to_a, timezone, !!@day_and ]
+    end
 
     def compact_month_days
 
