@@ -20,6 +20,7 @@ module Fugit
 
     def parse(s, opts={})
 
+      opts = (opts || {}).dup
       opts[:at] = opts[:in] if opts.has_key?(:in)
 
       (opts[:cron] != false && parse_cron(s, opts || {})) || # 542ms 616ms
@@ -31,6 +32,7 @@ module Fugit
 
     def do_parse(s, opts={})
 
+      opts = (opts || {}).dup
       opts[:at] = opts[:in] if opts.has_key?(:in)
 
       result = nil
