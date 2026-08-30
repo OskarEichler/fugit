@@ -7,23 +7,23 @@ module Fugit
   class << self
 
     def parse_cron(s, opts={}); ::Fugit::Cron.parse(s, opts || {}); end
-    def parse_duration(s); ::Fugit::Duration.parse(s); end
+    def parse_duration(s, opts={}); ::Fugit::Duration.parse(s, opts || {}); end
     def parse_nat(s, opts={}); ::Fugit::Nat.parse(s, opts || {}); end
     def parse_at(s, opts={}); ::Fugit::At.parse(s, opts || {}); end
-    def parse_in(s); parse_duration(s); end
+    def parse_in(s, opts={}); parse_duration(s, opts || {}); end
 
     def do_parse_cron(s, opts={}); ::Fugit::Cron.do_parse(s, opts || {}); end
     def do_parse_duration(s, opts={}); ::Fugit::Duration.do_parse(s, opts || {}); end
     def do_parse_nat(s, opts={}); ::Fugit::Nat.do_parse(s, opts || {}); end
     def do_parse_at(s, opts={}); ::Fugit::At.do_parse(s, opts || {}); end
-    def do_parse_in(s); do_parse_duration(s); end
+    def do_parse_in(s, opts={}); do_parse_duration(s, opts || {}); end
 
     def parse(s, opts={})
 
       opts[:at] = opts[:in] if opts.has_key?(:in)
 
       (opts[:cron] != false && parse_cron(s, opts || {})) || # 542ms 616ms
-      (opts[:duration] != false && parse_duration(s)) || # 645ms # 534ms
+      (opts[:duration] != false && parse_duration(s, opts || {})) || # 645ms # 534ms
       (opts[:nat] != false && parse_nat(s, opts || {})) || # 2s # 35s
       (opts[:at] != false && parse_at(s, opts || {})) || # 568ms 622ms
       nil
