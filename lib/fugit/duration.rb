@@ -22,6 +22,7 @@ module Fugit
         s = "#{s}s" if s.is_a?(Numeric)
 
         return nil unless s.is_a?(String)
+        return nil if Fugit.input_too_long?(s)
 
         s = s.strip
 #p [ original, s ]; Raabro.pp(Parser.parse(s, debug: 3), colours: true)
@@ -39,6 +40,8 @@ module Fugit
       end
 
       def do_parse(s, opts={})
+
+        Fugit.check_input_length!(s)
 
         parse(s, opts) ||
         fail(ArgumentError.new("not a duration #{s.inspect}"))

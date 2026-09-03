@@ -33,6 +33,7 @@ module Fugit
 
         return s if s.is_a?(self)
         return nil unless s.is_a?(String)
+        return nil if Fugit.input_too_long?(s)
 
         s0 = s
         s = s.strip

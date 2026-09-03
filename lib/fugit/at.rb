@@ -13,6 +13,8 @@ module Fugit
 
       def do_parse(s, opts={})
 
+        Fugit.check_input_length!(s)
+
         case s
         when /^now$/i then ::EtOrbi::EoTime.now
         when String then ::EtOrbi.parse(s, opts || {})

@@ -20,6 +20,8 @@ module Fugit
 
     def parse(s, opts={})
 
+      return nil if input_too_long?(s)
+
       opts[:at] = opts[:in] if opts.has_key?(:in)
 
       (opts[:cron] != false && parse_cron(s, opts || {})) || # 542ms 616ms
@@ -61,13 +63,18 @@ module Fugit
 
     def do_parse_cronish(s, opts={})
 
+      check_input_length!(s)
+
       parse_cronish(s, opts) ||
       fail(ArgumentError.new("not cron or 'natural' cron string: #{s.inspect}"))
     end
 
     def parse_max(s, opts={})
 
-      s0 = s.lines.first
+      s0 = s.each_line.first
+
+      return nil if input_too_long?(s0)
+      return nil if s0.length > ::Fugit::Nat::MAX_INPUT_LENGTH
 
       (0..[ ::Fugit::Nat::MAX_INPUT_LENGTH, s0.length - 1 ].min).each do |i|
 
@@ -94,4 +101,3 @@ module Fugit
     end
   end
 end
-
